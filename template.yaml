@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Clean up old EC2 snapshots 
+
+Resources:
+  AncientEC2SnapshotsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: app.lambda_handler
+      Timeout: 15
+      Runtime: python3.8
+      Events:
+        DeleteAncientEC2SnapshotsEvent:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 day)
